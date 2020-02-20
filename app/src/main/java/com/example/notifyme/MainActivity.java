@@ -54,11 +54,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         createNotificationChannel();
+        setNotificationButtonState(true, false, false);
+
     }
 
     public void sendNotification() {
         NotificationCompat.Builder notifyBuilder = getNotificationBuilder();
         mNotifyManager.notify(NOTIFICATION_ID, notifyBuilder.build());
+        setNotificationButtonState(false, true, true);
     }
 
     public void updateNotification() {
@@ -70,10 +73,12 @@ public class MainActivity extends AppCompatActivity {
                 .setBigContentTitle("Notification Updated!"));
 
         mNotifyManager.notify(NOTIFICATION_ID, notifyBuilder.build());
+        setNotificationButtonState(false, false, true);
     }
 
     public void cancelNotification() {
         mNotifyManager.cancel(NOTIFICATION_ID);
+        setNotificationButtonState(true, false, false);
     }
 
     public void createNotificationChannel() {
@@ -111,5 +116,13 @@ public class MainActivity extends AppCompatActivity {
                 .setDefaults(NotificationCompat.DEFAULT_ALL);
 
         return notifyBuilder;
+    }
+
+    void setNotificationButtonState(Boolean isNotifyEnabled,
+                                    Boolean isUpdateEnabled,
+                                    Boolean isCancelEnabled) {
+        button_notify.setEnabled(isNotifyEnabled);
+        button_update.setEnabled(isUpdateEnabled);
+        button_cancel.setEnabled(isCancelEnabled);
     }
 }
